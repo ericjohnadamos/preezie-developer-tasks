@@ -13,7 +13,7 @@ Welcome to the interview coding task! This repository contains tasks for both fr
 
 3. **Complete the Task**: Follow the instructions provided in the relevant section below to complete your task.
 
-4. **Submit Your Solution**: Once you have completed the task, push your changes back to the repository and notify us.
+4. **Submit Your Solution**: Once you have completed the task, create a public repository using your personal GitHub account and notify us.
 
 ### Submission
 
