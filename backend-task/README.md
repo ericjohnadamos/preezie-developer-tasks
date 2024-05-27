@@ -210,7 +210,7 @@ namespace LibraryManagementSystem
 ```
 
 #### Submission Instructions:
-1. Fork the provided repository (link) or create a new repository on your GitHub account.
+1. Create a new repository on your GitHub account.
 2. Commit your changes and ensure your code is well-documented.
 3. Share the repository link once you are done.
 
