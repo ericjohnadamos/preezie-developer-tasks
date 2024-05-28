@@ -210,14 +210,8 @@ namespace LibraryManagementSystem
 ```
 
 #### Submission Instructions:
-1. Create a new repository on your GitHub account.
+1. Create a new repository on your personal GitHub account.
 2. Commit your changes and ensure your code is well-documented.
 3. Share the repository link once you are done.
-
-#### Evaluation Criteria:
-- Correctness and completeness of the implementation.
-- Appropriate usage of design patterns.
-- Code readability and organization.
-- Handling of edge cases and user input validation.
 
 Good luck and happy coding!
