@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Preezie.Application.Commons.Dtos;
 using Preezie.Application.TodoItems.Commands;
 using Preezie.Application.TodoItems.Queries;
+using Preezie.WebAPI.Models;
 
 [ApiController]
 [Route("api/todo")]
@@ -16,11 +17,11 @@ public class TodoController : ControllerBase
     public TodoController(IMediator mediator) => this.mediator = mediator;
 
     [HttpGet]
-    [ProducesResponseType(typeof(IEnumerable<TodoItemDto>), StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<TodoItemDto>>> GetTodoItems()
+    [ProducesResponseType(typeof(GetTodoItemsResponse), StatusCodes.Status200OK)]
+    public async Task<ActionResult<GetTodoItemsResponse>> GetTodoItems()
     {
         var query = await this.mediator.Send(new GetTodoItemsQuery());
-        var response = query.Adapt<IEnumerable<TodoItemDto>>();
+        var response = query.Adapt<GetTodoItemsResponse>();
         return this.Ok(response);
     }
 
