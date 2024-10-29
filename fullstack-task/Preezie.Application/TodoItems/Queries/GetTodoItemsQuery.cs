@@ -1,8 +1,9 @@
 ﻿namespace Preezie.Application.TodoItems.Queries;
 
-using MediatR;
 using Preezie.Application.Commons.Dtos;
+using Preezie.Domain.Patterns.CQRS;
 
-public record GetTodoItemsQuery() : IRequest<GetTodoItemsResult>;
+public record GetTodoItemsQuery() : IQuery<GetTodoItemsResult>;
 
 public record GetTodoItemsResult(IEnumerable<TodoItemDto> TodoItems);
+

@@ -1,12 +1,12 @@
 ﻿namespace Preezie.Application.TodoItems.Queries;
 
 using Mapster;
-using MediatR;
 using Preezie.Application.Commons.Dtos;
 using Preezie.Application.Interfaces;
+using Preezie.Domain.Patterns.CQRS;
 
 public class GetTodoItemsQueryHandler(IReadOnlyTodoItemService service)
-    : IRequestHandler<GetTodoItemsQuery, GetTodoItemsResult>
+    : IQueryHandler<GetTodoItemsQuery, GetTodoItemsResult>
 {
     public async Task<GetTodoItemsResult> Handle(GetTodoItemsQuery request, CancellationToken cancellationToken)
     {

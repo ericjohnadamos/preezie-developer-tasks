@@ -1,7 +1,8 @@
 ﻿namespace Preezie.Application.TodoItems.Commands;
 
-using MediatR;
+using Preezie.Domain.Patterns.CQRS;
 
-public record CreateTodoItemCommand(string Title) : IRequest<CreateTodoItemResult>;
+public record CreateTodoItemCommand(string Title) : ICommand<CreateTodoItemResult>;
 
 public record CreateTodoItemResult(int Id);
+

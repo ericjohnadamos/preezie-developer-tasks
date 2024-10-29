@@ -1,12 +1,12 @@
 ﻿namespace Preezie.Application.TodoItems.Commands;
 
-using MediatR;
 using Preezie.Application.Interfaces;
+using Preezie.Domain.Patterns.CQRS;
 using System.Threading;
 using System.Threading.Tasks;
 
 public class UpdateTodoItemCommandHandler(ITodoItemService service)
-    : IRequestHandler<UpdateTodoItemCommand, UpdateTodoItemResult>
+    : ICommandHandler<UpdateTodoItemCommand, UpdateTodoItemResult>
 {
     public async Task<UpdateTodoItemResult> Handle(UpdateTodoItemCommand request, CancellationToken cancellationToken)
     {
