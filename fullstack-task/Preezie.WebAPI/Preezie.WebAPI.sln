@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Preezie.WebAPI", "Preezie.WebAPI.csproj", "{E1DAD801-0F7B-45AC-ACDE-5647B4883437}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Preezie.WebAPI", "Preezie.WebAPI.csproj", "{E1DAD801-0F7B-45AC-ACDE-5647B4883437}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Preezie.Domain", "..\Preezie.Domain\Preezie.Domain.csproj", "{B48228E0-E8B4-4639-9E87-C5765C4A2AF4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Preezie.Application", "..\Preezie.Application\Preezie.Application.csproj", "{85D48E21-3518-405B-BC43-E49CF0CE443B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{E1DAD801-0F7B-45AC-ACDE-5647B4883437}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E1DAD801-0F7B-45AC-ACDE-5647B4883437}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E1DAD801-0F7B-45AC-ACDE-5647B4883437}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B48228E0-E8B4-4639-9E87-C5765C4A2AF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B48228E0-E8B4-4639-9E87-C5765C4A2AF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B48228E0-E8B4-4639-9E87-C5765C4A2AF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B48228E0-E8B4-4639-9E87-C5765C4A2AF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85D48E21-3518-405B-BC43-E49CF0CE443B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85D48E21-3518-405B-BC43-E49CF0CE443B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85D48E21-3518-405B-BC43-E49CF0CE443B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85D48E21-3518-405B-BC43-E49CF0CE443B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

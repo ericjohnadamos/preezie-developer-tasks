@@ -1,8 +1,8 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
+using Preezie.WebAPI.Providers;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
+builder.Services.AddTodoItemServices();
 
 // Add CORS policy
 builder.Services.AddCors(options =>
