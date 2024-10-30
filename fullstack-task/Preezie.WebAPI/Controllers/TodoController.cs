@@ -3,7 +3,6 @@
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Preezie.Application.Commons.Dtos;
 using Preezie.Application.TodoItems.Commands;
 using Preezie.Application.TodoItems.Queries;
 using Preezie.WebAPI.Models;
@@ -26,14 +25,15 @@ public class TodoController : ControllerBase
     }
 
     [HttpGet("{id:int}")]
-    [ProducesResponseType(typeof(TodoItemDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(GetTodoItemByIdResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<TodoItemDto>> GetTodoItemById(int id)
+    public async Task<ActionResult<GetTodoItemByIdResponse>> GetTodoItemById(int id)
     {
         try
         {
             var query = await this.mediator.Send(new GetTodoItemByIdQuery(id));
-            return this.Ok(query.TodoItem);
+            var response = query.Adapt<GetTodoItemByIdResponse>();
+            return this.Ok(response);
         }
         catch (Exception ex)
         {
@@ -44,11 +44,12 @@ public class TodoController : ControllerBase
     [HttpPost]
     [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<int>> CreateTodoItem([FromBody] TodoItemDto item)
+    public async Task<ActionResult<int>> CreateTodoItem([FromBody] CreateTodoItemRequest todoItemRequest)
     {
         try
         {
-            var result = await this.mediator.Send(new CreateTodoItemCommand(item.Title));
+            var command = todoItemRequest.Adapt<CreateTodoItemCommand>();
+            var result = await this.mediator.Send(command);
             return this.CreatedAtAction(nameof(GetTodoItemById), new { result.Id }, result.Id);
         }
         catch (Exception ex)
@@ -58,16 +59,20 @@ public class TodoController : ControllerBase
     }
 
     [HttpPut("{id:int}")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult> UpdateTodo(int id, [FromBody] string title)
+    public async Task<ActionResult> UpdateTodo(int id, [FromBody] UpdateTodoItemRequest todoItemRequest)
     {
+        if (id != todoItemRequest.Id)
+            return this.BadRequest();
+
         // TODO: Update the from body to use a request model rather than a primitive string
         try
         {
-            await this.mediator.Send(new UpdateTodoItemCommand(id, title));
-            return this.NoContent();
+            var request = todoItemRequest.Adapt<UpdateTodoItemCommand>();
+            var result = await this.mediator.Send(request);
+            return this.Ok(result.Id);
         }
         catch (Exception ex)
         {
