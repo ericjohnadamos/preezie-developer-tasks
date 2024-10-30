@@ -14,7 +14,7 @@ public class TodoItemService : ITodoItemService
     /// <inheritdoc/>
     public async Task<IEnumerable<TodoItem>> GetTodoItemsAsync()
     {
-        var todoItemList = todoItems.Values.ToList();
+        var todoItemList = todoItems.Values.Where(i => !i.IsDeleted).ToList();
         return await Task.FromResult(todoItemList);
     }
 
@@ -52,9 +52,12 @@ public class TodoItemService : ITodoItemService
     /// <inheritdoc/>
     public Task MarkTodoItemAsDeletedAsync(int id)
     {
-        // TODO: Implement mark as deletion
         if (!todoItems.TryGetValue(id, out TodoItem todoItem))
             throw new KeyNotFoundException();
+
+        var todoItemWithDeletedStatus = todoItem.WithDeletedStatus();
+        todoItems.TryUpdate(id, todoItemWithDeletedStatus, todoItem);
+
         return Task.CompletedTask;
     }
 }

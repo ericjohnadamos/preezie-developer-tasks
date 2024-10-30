@@ -5,6 +5,7 @@ public record TodoItem
     public int Id { get; init; }
     public string Title { get; init; } = string.Empty;
     public bool IsCompleted { get; init; }
+    public bool IsDeleted { get; init; }
 
     private TodoItem() { }
 
@@ -28,6 +29,14 @@ public record TodoItem
         return this with
         {
             Title = newTitle,
+        };
+    }
+
+    public TodoItem WithDeletedStatus()
+    {
+        return this with
+        {
+            IsDeleted = true,
         };
     }
 }
