@@ -22,8 +22,8 @@ public record TodoItem
 
     public TodoItem WithUpdatedTitle(string newTitle)
     {
-        if (string.IsNullOrWhiteSpace(Title))
-            throw new Exception("Title is required.");
+        if (string.IsNullOrWhiteSpace(newTitle))
+            throw new ArgumentException("Title is required.");
 
         return this with
         {
