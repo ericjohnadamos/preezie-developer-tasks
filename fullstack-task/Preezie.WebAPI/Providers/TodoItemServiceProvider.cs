@@ -7,8 +7,10 @@ public static class TodoItemServiceProvider
 {
     public static IServiceCollection AddTodoItemServices(this IServiceCollection services)
     {
-        services.AddSingleton<IReadOnlyTodoItemService, TodoItemService>();
-        services.AddSingleton<ITodoItemService, TodoItemService>();
+        services.AddSingleton<TodoItemService>();
+        services.AddSingleton<ITodoItemService>(sp => sp.GetRequiredService<TodoItemService>());
+        services.AddSingleton<IReadOnlyTodoItemService>(sp => sp.GetRequiredService<TodoItemService>());
+
         return services;
     }
 }
