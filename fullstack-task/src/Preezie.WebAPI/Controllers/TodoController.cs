@@ -1,5 +1,6 @@
 ﻿namespace Preezie.WebAPI.Controllers;
 
+using FluentValidation;
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -40,6 +41,10 @@ public class TodoController : ControllerBase
         {
             return this.NotFound(ex.Message);
         }
+        catch (ValidationException ex)
+        {
+            return this.BadRequest(ex.Message);
+        }
     }
 
     [HttpPost]
@@ -57,13 +62,17 @@ public class TodoController : ControllerBase
         {
             return this.BadRequest(ex.Message);
         }
+        catch (ValidationException ex)
+        {
+            return this.BadRequest(ex.Message);
+        }
     }
 
     [HttpPut("{id:int}")]
     [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<int>> UpdateTodo(int id, [FromBody] UpdateTodoItemRequest todoItemRequest)
+    public async Task<ActionResult<int>> UpdateTodoItem(int id, [FromBody] UpdateTodoItemRequest todoItemRequest)
     {
         if (id != todoItemRequest.Id)
             return this.BadRequest();
@@ -82,12 +91,16 @@ public class TodoController : ControllerBase
         {
             return this.BadRequest(ex.Message);
         }
+        catch (ValidationException ex)
+        {
+            return this.BadRequest(ex.Message);
+        }
     }
 
     [HttpDelete("{id:int}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult> DeleteTodo(int id)
+    public async Task<ActionResult> DeleteTodoItem(int id)
     {
         try
         {
@@ -101,6 +114,10 @@ public class TodoController : ControllerBase
         catch (InvalidOperationException ex)
         {
             return this.NotFound(ex.Message);
+        }
+        catch (ValidationException ex)
+        {
+            return this.BadRequest(ex.Message);
         }
     }
 }
