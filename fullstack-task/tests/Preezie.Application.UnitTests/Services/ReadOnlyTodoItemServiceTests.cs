@@ -1,8 +1,8 @@
 ﻿namespace Preezie.Application.UnitTests.Services;
 
+using Preezie.Application.Commons.Exceptions;
 using Preezie.Application.Interfaces;
 using Preezie.Application.Services;
-using System.Collections.Generic;
 
 public class ReadOnlyTodoItemServiceTests
 {
@@ -59,7 +59,7 @@ public class ReadOnlyTodoItemServiceTests
     public async Task GetTodoItemByIdAsync_WithInvalidId_ThrowsKeyNotFoundException()
     {
         // Act & Assert
-        await Assert.ThrowsAsync<KeyNotFoundException>(() =>
+        await Assert.ThrowsAsync<NotFoundException>(() =>
             this.readOnlySut.GetTodoItemByIdAsync(999));
     }
 }

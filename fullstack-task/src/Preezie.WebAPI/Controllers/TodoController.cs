@@ -3,6 +3,7 @@
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Preezie.Application.Commons.Exceptions;
 using Preezie.Application.TodoItems.Commands;
 using Preezie.Application.TodoItems.Queries;
 using Preezie.WebAPI.Models;
@@ -35,7 +36,7 @@ public class TodoController : ControllerBase
             var response = query.Adapt<GetTodoItemByIdResponse>();
             return this.Ok(response);
         }
-        catch (Exception ex)
+        catch (NotFoundException ex)
         {
             return this.NotFound(ex.Message);
         }
@@ -52,7 +53,7 @@ public class TodoController : ControllerBase
             var result = await this.mediator.Send(command);
             return this.CreatedAtAction(nameof(GetTodoItemById), new { result.Id }, result.Id);
         }
-        catch (Exception ex)
+        catch (InvalidOperationException ex)
         {
             return this.BadRequest(ex.Message);
         }
@@ -73,7 +74,11 @@ public class TodoController : ControllerBase
             var result = await this.mediator.Send(request);
             return this.Ok(result.Id);
         }
-        catch (Exception ex)
+        catch (NotFoundException ex)
+        {
+            return this.NotFound(ex.Message);
+        }
+        catch (InvalidOperationException ex)
         {
             return this.BadRequest(ex.Message);
         }
@@ -89,7 +94,11 @@ public class TodoController : ControllerBase
             await this.mediator.Send(new DeleteTodoItemCommand(id));
             return this.NoContent();
         }
-        catch (Exception ex)
+        catch (NotFoundException ex)
+        {
+            return this.NotFound(ex.Message);
+        }
+        catch (InvalidOperationException ex)
         {
             return this.NotFound(ex.Message);
         }

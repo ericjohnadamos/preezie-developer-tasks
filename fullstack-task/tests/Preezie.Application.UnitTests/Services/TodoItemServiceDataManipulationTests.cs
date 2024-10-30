@@ -1,5 +1,6 @@
 ﻿namespace Preezie.Application.UnitTests.Services;
 
+using Preezie.Application.Commons.Exceptions;
 using Preezie.Application.Interfaces;
 using Preezie.Application.Services;
 using Preezie.Domain.Entities;
@@ -91,7 +92,7 @@ public class TodoItemServiceDataManipulationTests
     public async Task UpdateTodoItemAsync_WithInvalidId_ThrowsKeyNotFoundException()
     {
         // Act & Assert
-        await Assert.ThrowsAsync<KeyNotFoundException>(() =>
+        await Assert.ThrowsAsync<NotFoundException>(() =>
             this.sut.UpdateTodoItemAsync(999, "New Title"));
     }
 
@@ -99,7 +100,7 @@ public class TodoItemServiceDataManipulationTests
     public async Task MarkTodoItemAsDeletedAsync_WithInvalidId_ThrowsKeyNotFoundException()
     {
         // Act & Assert
-        await Assert.ThrowsAsync<KeyNotFoundException>(() =>
+        await Assert.ThrowsAsync<NotFoundException>(() =>
             this.sut.MarkTodoItemAsDeletedAsync(999));
     }
 

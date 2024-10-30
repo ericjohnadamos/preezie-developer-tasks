@@ -1,5 +1,6 @@
 ﻿namespace Preezie.Application.Services;
 
+using Preezie.Application.Commons.Exceptions;
 using Preezie.Application.Interfaces;
 using Preezie.Domain.Entities;
 using System.Collections.Concurrent;
@@ -22,7 +23,7 @@ public class TodoItemService : ITodoItemService
     public async Task<TodoItem> GetTodoItemByIdAsync(int id)
     {
         if (!this.todoItems.TryGetValue(id, out TodoItem? todoItem))
-            throw new KeyNotFoundException();
+            throw new NotFoundException($"Cannot find todo item with an Id of '{id}'");
         return await Task.FromResult(todoItem);
     }
 
@@ -33,7 +34,7 @@ public class TodoItemService : ITodoItemService
         var todoItem = TodoItem.CreateWithIdAndTitle(id, title);
 
         if (!this.todoItems.TryAdd(id, todoItem))
-            throw new InvalidOperationException();
+            throw new InvalidOperationException("There is an error when trying to add a todo item");
 
         return await Task.FromResult(todoItem);
     }
@@ -43,22 +44,22 @@ public class TodoItemService : ITodoItemService
     {
         var todoItem = await this.GetTodoItemByIdAsync(id);
         var updatedTodoItem = todoItem.WithUpdatedTitle(title);
-        this.todoItems.TryUpdate(id, updatedTodoItem, todoItem);
+
+        if (!this.todoItems.TryUpdate(id, updatedTodoItem, todoItem))
+            throw new InvalidOperationException($"There is an error when trying to update a todo item with an Id of '{id}'");
 
         var newTodoItem = await this.GetTodoItemByIdAsync(id);
         return await Task.FromResult(newTodoItem);
     }
 
     /// <inheritdoc/>
-    public Task MarkTodoItemAsDeletedAsync(int id)
+    public async Task MarkTodoItemAsDeletedAsync(int id)
     {
-        if (!this.todoItems.TryGetValue(id, out TodoItem? todoItem))
-            throw new KeyNotFoundException();
-
+        var todoItem = await this.GetTodoItemByIdAsync(id);
         var todoItemWithDeletedStatus = todoItem.WithDeletedStatus();
-        this.todoItems.TryUpdate(id, todoItemWithDeletedStatus, todoItem);
 
-        return Task.CompletedTask;
+        if (!this.todoItems.TryUpdate(id, todoItemWithDeletedStatus, todoItem))
+            throw new InvalidOperationException($"There is an error when trying to mark a todo item with an Id of '{id}' as deleted");
     }
 }
 
