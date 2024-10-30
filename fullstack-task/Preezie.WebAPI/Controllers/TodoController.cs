@@ -62,12 +62,11 @@ public class TodoController : ControllerBase
     [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult> UpdateTodo(int id, [FromBody] UpdateTodoItemRequest todoItemRequest)
+    public async Task<ActionResult<int>> UpdateTodo(int id, [FromBody] UpdateTodoItemRequest todoItemRequest)
     {
         if (id != todoItemRequest.Id)
             return this.BadRequest();
 
-        // TODO: Update the from body to use a request model rather than a primitive string
         try
         {
             var request = todoItemRequest.Adapt<UpdateTodoItemCommand>();
@@ -76,7 +75,6 @@ public class TodoController : ControllerBase
         }
         catch (Exception ex)
         {
-            // TODO: Need to handle not found exception and bad request properly
             return this.BadRequest(ex.Message);
         }
     }
