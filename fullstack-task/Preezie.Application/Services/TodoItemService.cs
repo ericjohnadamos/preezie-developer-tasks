@@ -11,10 +11,11 @@ public class TodoItemService : ITodoItemService
     private readonly ConcurrentDictionary<int, TodoItem> todoItems = new();
     private int nextId = 1;
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public async Task<IEnumerable<TodoItem>> GetTodoItemsAsync()
     {
-        return await Task.FromResult(this.todoItems.Values);
+        var todoItemList = todoItems.Values.ToList();
+        return await Task.FromResult(todoItemList);
     }
 
     /// <inheritdoc/>
@@ -28,8 +29,12 @@ public class TodoItemService : ITodoItemService
     /// <inheritdoc/>
     public async Task<TodoItem> CreateTodoItemAsync(string title)
     {
-        var todoItem = TodoItem.CreateWithTitle(title);
-        todoItems.TryAdd(nextId++, todoItem);
+        var id = Interlocked.Increment(ref nextId) - 1;
+        var todoItem = TodoItem.CreateWithIdAndTitle(id, title);
+
+        if (!todoItems.TryAdd(id, todoItem))
+            throw new InvalidOperationException();
+
         return await Task.FromResult(todoItem);
     }
 
@@ -39,8 +44,8 @@ public class TodoItemService : ITodoItemService
         if (!todoItems.TryGetValue(id, out TodoItem todoItem))
             throw new KeyNotFoundException();
 
-        todoItem.UpdateTitle(title);
-        todoItems.TryUpdate(id, todoItem, todoItem);
+        var updatedTodoItem = todoItem.WithUpdatedTitle(title);
+        todoItems.TryUpdate(id, updatedTodoItem, todoItem);
 
         return await Task.FromResult(todoItem);
     }

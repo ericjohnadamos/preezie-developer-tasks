@@ -1,34 +1,33 @@
 ﻿namespace Preezie.Domain.Entities;
 
-public class TodoItem
+public record TodoItem
 {
-    public int Id { get; private set; }
-    public string Title { get; private set; } = string.Empty;
-    public bool IsCompleted { get; private set; }
+    public int Id { get; init; }
+    public string Title { get; init; } = string.Empty;
+    public bool IsCompleted { get; init; }
 
     private TodoItem() { }
 
-    public static TodoItem CreateWithTitle(string title)
+    public static TodoItem CreateWithIdAndTitle(int id, string title)
     {
         if (string.IsNullOrWhiteSpace(title))
-            throw new Exception("Title is required.");
+            throw new ArgumentException("Title is required.");
 
         return new TodoItem
         {
+            Id = id,
             Title = title,
         };
     }
 
-    public void UpdateTitle(string newTitle)
+    public TodoItem WithUpdatedTitle(string newTitle)
     {
         if (string.IsNullOrWhiteSpace(Title))
             throw new Exception("Title is required.");
 
-        Title = newTitle;
-    }
-
-    public void MarkAsCompleted()
-    {
-        IsCompleted = true;
+        return this with
+        {
+            Title = newTitle,
+        };
     }
 }
