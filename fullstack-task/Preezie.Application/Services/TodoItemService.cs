@@ -41,13 +41,12 @@ public class TodoItemService : ITodoItemService
     /// <inheritdoc/>
     public async Task<TodoItem> UpdateTodoItemAsync(int id, string title)
     {
-        if (!todoItems.TryGetValue(id, out TodoItem todoItem))
-            throw new KeyNotFoundException();
-
+        var todoItem = await this.GetTodoItemByIdAsync(id);
         var updatedTodoItem = todoItem.WithUpdatedTitle(title);
         todoItems.TryUpdate(id, updatedTodoItem, todoItem);
 
-        return await Task.FromResult(todoItem);
+        var newTodoItem = await this.GetTodoItemByIdAsync(id);
+        return await Task.FromResult(newTodoItem);
     }
 
     /// <inheritdoc/>
