@@ -6,13 +6,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddTodoItemServices();
 
-// Register MediatR
 builder.Services.AddMediatR(cfg =>
 {
     cfg.RegisterServicesFromAssembly(typeof(IApplicationMarker).Assembly);
 });
 
-// Add CORS policy
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp",

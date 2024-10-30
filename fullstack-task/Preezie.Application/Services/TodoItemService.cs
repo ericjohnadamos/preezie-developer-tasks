@@ -14,14 +14,14 @@ public class TodoItemService : ITodoItemService
     /// <inheritdoc/>
     public async Task<IEnumerable<TodoItem>> GetTodoItemsAsync()
     {
-        var todoItemList = todoItems.Values.Where(i => !i.IsDeleted).ToList();
+        var todoItemList = this.todoItems.Values.Where(i => !i.IsDeleted).ToList();
         return await Task.FromResult(todoItemList);
     }
 
     /// <inheritdoc/>
     public async Task<TodoItem> GetTodoItemByIdAsync(int id)
     {
-        if (!todoItems.TryGetValue(id, out TodoItem todoItem))
+        if (!this.todoItems.TryGetValue(id, out TodoItem? todoItem))
             throw new KeyNotFoundException();
         return await Task.FromResult(todoItem);
     }
@@ -32,7 +32,7 @@ public class TodoItemService : ITodoItemService
         var id = Interlocked.Increment(ref nextId) - 1;
         var todoItem = TodoItem.CreateWithIdAndTitle(id, title);
 
-        if (!todoItems.TryAdd(id, todoItem))
+        if (!this.todoItems.TryAdd(id, todoItem))
             throw new InvalidOperationException();
 
         return await Task.FromResult(todoItem);
@@ -43,7 +43,7 @@ public class TodoItemService : ITodoItemService
     {
         var todoItem = await this.GetTodoItemByIdAsync(id);
         var updatedTodoItem = todoItem.WithUpdatedTitle(title);
-        todoItems.TryUpdate(id, updatedTodoItem, todoItem);
+        this.todoItems.TryUpdate(id, updatedTodoItem, todoItem);
 
         var newTodoItem = await this.GetTodoItemByIdAsync(id);
         return await Task.FromResult(newTodoItem);
@@ -52,11 +52,11 @@ public class TodoItemService : ITodoItemService
     /// <inheritdoc/>
     public Task MarkTodoItemAsDeletedAsync(int id)
     {
-        if (!todoItems.TryGetValue(id, out TodoItem todoItem))
+        if (!this.todoItems.TryGetValue(id, out TodoItem? todoItem))
             throw new KeyNotFoundException();
 
         var todoItemWithDeletedStatus = todoItem.WithDeletedStatus();
-        todoItems.TryUpdate(id, todoItemWithDeletedStatus, todoItem);
+        this.todoItems.TryUpdate(id, todoItemWithDeletedStatus, todoItem);
 
         return Task.CompletedTask;
     }
