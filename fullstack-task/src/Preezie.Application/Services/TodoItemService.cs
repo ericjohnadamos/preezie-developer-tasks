@@ -15,13 +15,6 @@ public class TodoItemService : ITodoItemService
     /// <inheritdoc/>
     public async Task<IEnumerable<TodoItem>> GetTodoItemsAsync()
     {
-        if (this.todoItems.Count == 0)
-        {
-            await this.CreateTodoItemAsync("Testing One");
-            await this.CreateTodoItemAsync("Testing Two");
-            await this.CreateTodoItemAsync("Testing Three");
-            await this.CreateTodoItemAsync("Testing Four");
-        }
         var todoItemList = this.todoItems.Values.Where(i => !i.IsDeleted).ToList();
         return await Task.FromResult(todoItemList);
     }
