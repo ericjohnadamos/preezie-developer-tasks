@@ -82,6 +82,11 @@ public class TodoController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Toggles the todo item completion.
+    /// </summary>
+    /// <param name="todoItemRequest">The todo item to toggle the completion.</param>
+    /// <returns>An await-able action result.</returns>
     [HttpPost("toggle-completion")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -104,6 +109,11 @@ public class TodoController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Deletes the todo item by Id.
+    /// </summary>
+    /// <param name="id">The Id of the todo item to delete.</param>
+    /// <returns>An await-able action result.</returns>
     [HttpDelete("{id:int}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
