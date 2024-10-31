@@ -21,6 +21,14 @@ public record TodoItem
         };
     }
 
+    public TodoItem WithToggledCompletion()
+    {
+        return this with
+        {
+            IsCompleted = !IsCompleted
+        };
+    }
+
     public TodoItem WithUpdatedTitle(string newTitle)
     {
         if (string.IsNullOrWhiteSpace(newTitle))

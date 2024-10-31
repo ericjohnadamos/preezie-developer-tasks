@@ -15,6 +15,13 @@ public class TodoItemService : ITodoItemService
     /// <inheritdoc/>
     public async Task<IEnumerable<TodoItem>> GetTodoItemsAsync()
     {
+        if (this.todoItems.Count == 0)
+        {
+            await this.CreateTodoItemAsync("Testing One");
+            await this.CreateTodoItemAsync("Testing Two");
+            await this.CreateTodoItemAsync("Testing Three");
+            await this.CreateTodoItemAsync("Testing Four");
+        }
         var todoItemList = this.todoItems.Values.Where(i => !i.IsDeleted).ToList();
         return await Task.FromResult(todoItemList);
     }
@@ -40,16 +47,13 @@ public class TodoItemService : ITodoItemService
     }
 
     /// <inheritdoc/>
-    public async Task<TodoItem> UpdateTodoItemAsync(int id, string title)
+    public async Task ToggleTodoItemCompletionAsync(int id)
     {
         var todoItem = await this.GetTodoItemByIdAsync(id);
-        var updatedTodoItem = todoItem.WithUpdatedTitle(title);
+        var toggledTodoItem = todoItem.WithToggledCompletion();
 
-        if (!this.todoItems.TryUpdate(id, updatedTodoItem, todoItem))
-            throw new InvalidOperationException($"There is an error when trying to update a todo item with an Id of '{id}'");
-
-        var newTodoItem = await this.GetTodoItemByIdAsync(id);
-        return await Task.FromResult(newTodoItem);
+        if (!this.todoItems.TryUpdate(id, toggledTodoItem, todoItem))
+            throw new InvalidOperationException($"There is an error when trying to toggle the completion of the todo item with an Id of '{id}'");
     }
 
     /// <inheritdoc/>

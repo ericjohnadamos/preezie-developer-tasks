@@ -56,7 +56,7 @@ public class ReadOnlyTodoItemServiceTests
     }
 
     [Fact]
-    public async Task GetTodoItemByIdAsync_WithInvalidId_ThrowsKeyNotFoundException()
+    public async Task GetTodoItemByIdAsync_WithInvalidId_ThrowsNotFoundException()
     {
         // Act & Assert
         await Assert.ThrowsAsync<NotFoundException>(() =>

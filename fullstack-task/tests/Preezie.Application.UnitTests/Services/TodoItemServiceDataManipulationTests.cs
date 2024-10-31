@@ -56,48 +56,25 @@ public class TodoItemServiceDataManipulationTests
     }
 
     [Fact]
-    public async Task UpdateTodoItemAsync_WithValidId_UpdatesTodoItem()
+    public async Task ToggleTodoItemCompletionAsync_WithValidId_UpdatesTodoItem()
     {
         // Arrange
-        var item = await this.sut.CreateTodoItemAsync("Original Title");
-        const string newTitle = "Updated Title";
+        var item = await this.sut.CreateTodoItemAsync("Item 1");
+        var itemIsCompleted = item.IsCompleted;
 
         // Act
-        var result = await this.sut.UpdateTodoItemAsync(item.Id, newTitle);
+        await this.sut.ToggleTodoItemCompletionAsync(item.Id);
 
         // Assert
-        Assert.Equal(item.Id, result.Id);
-        Assert.Equal(newTitle, result.Title);
+        Assert.NotEqual(!itemIsCompleted, itemIsCompleted);
 
         // Verify update was persisted
         var retrieved = await this.sut.GetTodoItemByIdAsync(item.Id);
-        Assert.Equal(newTitle, retrieved.Title);
-    }
-
-    [Theory]
-    [InlineData("")]
-    [InlineData(null)]
-    [InlineData("   ")]
-    public async Task UpdateTodoItemAsync_WithInvalidTitle_ThrowsArgumentException(string invalidTitle)
-    {
-        // Arrange
-        var item = await this.sut.CreateTodoItemAsync("Original Title");
-
-        // Act & Assert
-        await Assert.ThrowsAsync<ArgumentException>(() =>
-            this.sut.UpdateTodoItemAsync(item.Id, invalidTitle));
+        Assert.Equal(!itemIsCompleted, retrieved.IsCompleted);
     }
 
     [Fact]
-    public async Task UpdateTodoItemAsync_WithInvalidId_ThrowsKeyNotFoundException()
-    {
-        // Act & Assert
-        await Assert.ThrowsAsync<NotFoundException>(() =>
-            this.sut.UpdateTodoItemAsync(999, "New Title"));
-    }
-
-    [Fact]
-    public async Task MarkTodoItemAsDeletedAsync_WithInvalidId_ThrowsKeyNotFoundException()
+    public async Task MarkTodoItemAsDeletedAsync_WithInvalidId_ThrowsNotFoundException()
     {
         // Act & Assert
         await Assert.ThrowsAsync<NotFoundException>(() =>

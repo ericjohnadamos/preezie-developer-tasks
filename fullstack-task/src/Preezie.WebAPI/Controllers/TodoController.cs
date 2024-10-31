@@ -17,6 +17,10 @@ public class TodoController : ControllerBase
 
     public TodoController(IMediator mediator) => this.mediator = mediator;
 
+    /// <summary>
+    /// Gets the list of todo items.
+    /// </summary>
+    /// <returns>Returns the list of todo items.</returns>
     [HttpGet]
     [ProducesResponseType(typeof(GetTodoItemsResponse), StatusCodes.Status200OK)]
     public async Task<ActionResult<GetTodoItemsResponse>> GetTodoItems()
@@ -26,6 +30,11 @@ public class TodoController : ControllerBase
         return this.Ok(response);
     }
 
+    /// <summary>
+    /// Gets the todo item by Id.
+    /// </summary>
+    /// <param name="id">The Id of the todo item to look for.</param>
+    /// <returns>The specific todo item.</returns>
     [HttpGet("{id:int}")]
     [ProducesResponseType(typeof(GetTodoItemByIdResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -47,6 +56,11 @@ public class TodoController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Creates a todo item.
+    /// </summary>
+    /// <param name="todoItemRequest">The todo item to add.</param>
+    /// <returns>The Id of the created todo item.</returns>
     [HttpPost]
     [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -68,24 +82,17 @@ public class TodoController : ControllerBase
         }
     }
 
-    [HttpPut("{id:int}")]
-    [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+    [HttpPost("toggle-completion")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<int>> UpdateTodoItem(int id, [FromBody] UpdateTodoItemRequest todoItemRequest)
+    public async Task<ActionResult> ToggleTodoItemCompletion([FromBody] ToggleTodoItemCompletionRequest todoItemRequest)
     {
-        if (id != todoItemRequest.Id)
-            return this.BadRequest();
-
         try
         {
-            var request = todoItemRequest.Adapt<UpdateTodoItemCommand>();
-            var result = await this.mediator.Send(request);
-            return this.Ok(result.Id);
-        }
-        catch (NotFoundException ex)
-        {
-            return this.NotFound(ex.Message);
+            var request = todoItemRequest.Adapt<ToggleTodoItemCompletionCommand>();
+            await this.mediator.Send(request);
+            return this.Ok();
         }
         catch (InvalidOperationException ex)
         {

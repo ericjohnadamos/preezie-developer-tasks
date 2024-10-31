@@ -4,9 +4,9 @@ using FluentValidation;
 using MediatR;
 using Preezie.Domain.Patterns.CQRS;
 
-public record DeleteTodoItemCommand(int Id) : ICommand<Unit>
+public record ToggleTodoItemCompletionCommand(int Id) : ICommand<Unit>
 {
-    public class Validator : AbstractValidator<DeleteTodoItemCommand>
+    public class Validator : AbstractValidator<ToggleTodoItemCompletionCommand>
     {
         public Validator()
         {

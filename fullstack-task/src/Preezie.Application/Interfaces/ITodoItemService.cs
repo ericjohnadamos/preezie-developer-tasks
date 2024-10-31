@@ -12,12 +12,11 @@ public interface ITodoItemService : IReadOnlyTodoItemService
     Task<TodoItem> CreateTodoItemAsync(string title);
 
     /// <summary>
-    /// Update title of the todo item asynchronously.
+    /// Toggles the todo item completion asynchronously.
     /// </summary>
-    /// <param name="id">The id of the todo item to update.</param>
-    /// <param name="title">The updated title of the todo item.</param>
-    /// <returns>An await-able task of <see cref="TodoItem"/>.</returns>
-    Task<TodoItem> UpdateTodoItemAsync(int id, string title);
+    /// <param name="id">The Id of the todo item to toggle the completion.</param>
+    /// <returns>An await-able task.</returns>
+    Task ToggleTodoItemCompletionAsync(int id);
 
     /// <summary>
     /// Mark a todo item as deleted (soft delete).
