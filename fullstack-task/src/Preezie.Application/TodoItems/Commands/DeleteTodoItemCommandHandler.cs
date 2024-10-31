@@ -7,6 +7,10 @@ using Preezie.Domain.Patterns.CQRS;
 using System.Threading;
 using System.Threading.Tasks;
 
+/// <summary>
+/// Command handler to soft delete the todo item.
+/// </summary>
+/// <param name="service">The todo item service.</param>
 public class DeleteTodoItemCommandHandler(ITodoItemService service)
     : ICommandHandler<DeleteTodoItemCommand, Unit>
 {

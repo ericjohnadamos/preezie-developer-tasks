@@ -9,7 +9,7 @@ public record TodoItem
 
     private TodoItem() { }
 
-    public static TodoItem CreateWithIdAndTitle(int id, string title)
+    public static TodoItem CreateIncompleteWithIdAndTitle(int id, string title)
     {
         if (string.IsNullOrWhiteSpace(title))
             throw new ArgumentException("Title is required.");
@@ -18,6 +18,7 @@ public record TodoItem
         {
             Id = id,
             Title = title,
+            IsCompleted = false,
         };
     }
 

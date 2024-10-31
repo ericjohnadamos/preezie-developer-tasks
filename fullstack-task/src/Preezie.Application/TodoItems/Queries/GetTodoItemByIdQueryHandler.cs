@@ -8,6 +8,10 @@ using Preezie.Domain.Patterns.CQRS;
 using System.Threading;
 using System.Threading.Tasks;
 
+/// <summary>
+/// Query handler to get the todo item by Id.
+/// </summary>
+/// <param name="service">The readonly todo item service.</param>
 public class GetTodoItemByIdQueryHandler(IReadOnlyTodoItemService service)
     : IQueryHandler<GetTodoItemByIdQuery, GetTodoItemByIdResult>
 {

@@ -28,10 +28,10 @@ public class TodoItemService : ITodoItemService
     }
 
     /// <inheritdoc/>
-    public async Task<TodoItem> CreateTodoItemAsync(string title)
+    public async Task<TodoItem> CreateTodoItemWithIncompleteStatusAsync(string title)
     {
         var id = Interlocked.Increment(ref nextId) - 1;
-        var todoItem = TodoItem.CreateWithIdAndTitle(id, title);
+        var todoItem = TodoItem.CreateIncompleteWithIdAndTitle(id, title);
 
         if (!this.todoItems.TryAdd(id, todoItem))
             throw new InvalidOperationException("There is an error when trying to add a todo item");

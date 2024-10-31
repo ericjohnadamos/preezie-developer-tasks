@@ -3,9 +3,13 @@
 using FluentValidation;
 using Preezie.Domain.Patterns.CQRS;
 
-public record CreateTodoItemCommand(string Title) : ICommand<CreateTodoItemResult>
+/// <summary>
+/// Command to create a new todo item.
+/// </summary>
+/// <param name="Title">The title of the todo item.</param>
+public record CreateIncompleteTodoItemCommand(string Title) : ICommand<CreateTodoItemResult>
 {
-    public class Validator : AbstractValidator<CreateTodoItemCommand>
+    public class Validator : AbstractValidator<CreateIncompleteTodoItemCommand>
     {
         public Validator()
         {

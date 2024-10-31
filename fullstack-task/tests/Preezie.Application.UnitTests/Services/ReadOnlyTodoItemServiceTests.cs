@@ -26,11 +26,11 @@ public class ReadOnlyTodoItemServiceTests
     }
 
     [Fact]
-    public async Task GetTodoItemsAsync_WithItems_ReturnsAllItems()
+    public async Task GetTodoItemsWithIncompleteStatusAsync_WithItems_ReturnsAllItems()
     {
         // Arrange
-        var item1 = await this.sut.CreateTodoItemAsync("Test 1");
-        var item2 = await this.sut.CreateTodoItemAsync("Test 2");
+        var item1 = await this.sut.CreateTodoItemWithIncompleteStatusAsync("Test 1");
+        var item2 = await this.sut.CreateTodoItemWithIncompleteStatusAsync("Test 2");
 
         // Act
         var result = await this.readOnlySut.GetTodoItemsAsync();
@@ -45,7 +45,7 @@ public class ReadOnlyTodoItemServiceTests
     public async Task GetTodoItemByIdAsync_WithValidId_ReturnsTodoItem()
     {
         // Arrange
-        var createdItem = await this.sut.CreateTodoItemAsync("Test Item");
+        var createdItem = await this.sut.CreateTodoItemWithIncompleteStatusAsync("Test Item");
 
         // Act
         var result = await this.readOnlySut.GetTodoItemByIdAsync(createdItem.Id);

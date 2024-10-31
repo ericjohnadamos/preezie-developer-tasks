@@ -5,6 +5,10 @@ using Preezie.Application.Commons.Dtos;
 using Preezie.Application.Interfaces;
 using Preezie.Domain.Patterns.CQRS;
 
+/// <summary>
+/// Query handler to get the todo items.
+/// </summary>
+/// <param name="service">The readonly todo item service.</param>
 public class GetTodoItemsQueryHandler(IReadOnlyTodoItemService service)
     : IQueryHandler<GetTodoItemsQuery, GetTodoItemsResult>
 {

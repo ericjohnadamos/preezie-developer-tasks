@@ -5,11 +5,11 @@ using Preezie.Domain.Entities;
 public interface ITodoItemService : IReadOnlyTodoItemService
 {
     /// <summary>
-    /// Create a todo item asynchronously.
+    /// Create a todo item with incomplete status asynchronously.
     /// </summary>
     /// <param name="title">The title of the todo item.</param>
     /// <returns>An await-able task of <see cref="TodoItem"/>.</returns>
-    Task<TodoItem> CreateTodoItemAsync(string title);
+    Task<TodoItem> CreateTodoItemWithIncompleteStatusAsync(string title);
 
     /// <summary>
     /// Toggles the todo item completion asynchronously.

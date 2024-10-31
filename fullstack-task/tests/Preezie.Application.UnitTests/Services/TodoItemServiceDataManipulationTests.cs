@@ -21,7 +21,7 @@ public class TodoItemServiceDataManipulationTests
         const string title = "New Todo";
 
         // Act
-        var result = await this.sut.CreateTodoItemAsync(title);
+        var result = await this.sut.CreateTodoItemWithIncompleteStatusAsync(title);
 
         // Assert
         Assert.NotEqual(0, result.Id);
@@ -41,15 +41,15 @@ public class TodoItemServiceDataManipulationTests
     {
         // Act & Assert
         await Assert.ThrowsAsync<ArgumentException>(() =>
-            this.sut.CreateTodoItemAsync(invalidTitle));
+            this.sut.CreateTodoItemWithIncompleteStatusAsync(invalidTitle));
     }
 
     [Fact]
     public async Task CreateTodoItemAsync_MultipleItems_AssignsUniqueIds()
     {
         // Act
-        var item1 = await this.sut.CreateTodoItemAsync("Item 1");
-        var item2 = await this.sut.CreateTodoItemAsync("Item 2");
+        var item1 = await this.sut.CreateTodoItemWithIncompleteStatusAsync("Item 1");
+        var item2 = await this.sut.CreateTodoItemWithIncompleteStatusAsync("Item 2");
 
         // Assert
         Assert.NotEqual(item1.Id, item2.Id);
@@ -59,7 +59,7 @@ public class TodoItemServiceDataManipulationTests
     public async Task ToggleTodoItemCompletionAsync_WithValidId_UpdatesTodoItem()
     {
         // Arrange
-        var item = await this.sut.CreateTodoItemAsync("Item 1");
+        var item = await this.sut.CreateTodoItemWithIncompleteStatusAsync("Item 1");
         var itemIsCompleted = item.IsCompleted;
 
         // Act
@@ -85,7 +85,7 @@ public class TodoItemServiceDataManipulationTests
     public async Task MarkTodoItemAsDeletedAsync_WithValidId_DoesNotThrow()
     {
         // Arrange
-        var item = await this.sut.CreateTodoItemAsync("Test Item");
+        var item = await this.sut.CreateTodoItemWithIncompleteStatusAsync("Test Item");
 
         // Act & Assert
         await this.sut.MarkTodoItemAsDeletedAsync(item.Id);
@@ -101,7 +101,7 @@ public class TodoItemServiceDataManipulationTests
         // Act
         for (int i = 0; i < numberOfConcurrentOperations; i++)
         {
-            tasks.Add(this.sut.CreateTodoItemAsync($"Concurrent Item {i}"));
+            tasks.Add(this.sut.CreateTodoItemWithIncompleteStatusAsync($"Concurrent Item {i}"));
         }
 
         await Task.WhenAll(tasks);

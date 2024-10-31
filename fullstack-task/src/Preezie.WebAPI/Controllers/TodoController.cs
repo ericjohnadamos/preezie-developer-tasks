@@ -68,7 +68,7 @@ public class TodoController : ControllerBase
     {
         try
         {
-            var command = todoItemRequest.Adapt<CreateTodoItemCommand>();
+            var command = todoItemRequest.Adapt<CreateIncompleteTodoItemCommand>();
             var result = await this.mediator.Send(command);
             return this.CreatedAtAction(nameof(GetTodoItemById), new { result.Id }, result.Id);
         }
