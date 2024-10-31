@@ -1,4 +1,4 @@
-const BASE_URL = "https://localhost:5000/api/todo";
+const BASE_URL = "https://localhost:5000/api/v1/todo";
 
 export const todoService = {
   async fetchTodos() {

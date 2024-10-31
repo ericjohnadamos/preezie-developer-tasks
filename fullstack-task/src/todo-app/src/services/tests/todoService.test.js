@@ -27,7 +27,7 @@ describe('todoService', () => {
       const result = await todoService.fetchTodos();
 
       // Assert
-      expect(fetch).toHaveBeenCalledWith('https://localhost:5000/api/todo');
+      expect(fetch).toHaveBeenCalledWith('https://localhost:5000/api/v1/todo');
       expect(result).toEqual(mockTodos.todoItems);
     });
 
@@ -60,7 +60,7 @@ describe('todoService', () => {
 
       // Assert
       expect(fetch).toHaveBeenCalledWith(
-        'https://localhost:5000/api/todo',
+        'https://localhost:5000/api/v1/todo',
         expect.objectContaining({
           method: 'POST',
           headers: {
@@ -99,7 +99,7 @@ describe('todoService', () => {
 
     // Assert
     expect(fetch).toHaveBeenCalledWith(
-      'https://localhost:5000/api/todo/toggle-completion',
+      'https://localhost:5000/api/v1/todo/toggle-completion',
       {
         method: 'POST',
         headers: {
@@ -169,7 +169,7 @@ describe('todoService', () => {
 
       // Assert
       expect(fetch).toHaveBeenCalledWith(
-        `https://localhost:5000/api/todo/${todoId}`,
+        `https://localhost:5000/api/v1/todo/${todoId}`,
         expect.objectContaining({
           method: 'DELETE'
         })

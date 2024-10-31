@@ -10,7 +10,7 @@ using Preezie.Application.TodoItems.Queries;
 using Preezie.WebAPI.Models;
 
 [ApiController]
-[Route("api/todo")]
+[Route("api/v1/todo")]
 public class TodoController : ControllerBase
 {
     private readonly IMediator mediator;
