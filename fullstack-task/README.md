@@ -31,7 +31,6 @@
   - XUnit
   - FluentValidation
 #### 📘 Front-end
-- **Framework**: Angular (TypeScript)
 - **📦 Packages**:
   - @testing-library/jest-dom
   - react
@@ -69,7 +68,7 @@ $ git clone https://github.com/ericjohnadamos/preezie-developer-tasks.git
 :fullstack-task\src\Preezie.WebAPI$ dotnet run --launch-profile https
 ```
 
-2. In a separate terminal, start the Angular development server:
+2. In a separate terminal, start the React development server:
 ```sh
 :fullstack-task\src\todo-app$ npm start
 ```
